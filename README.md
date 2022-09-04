@@ -1,1 +1,1 @@
-<h1 align="center">Meat-Backend</h1>
+<h1 align="center">Meat (Backend)</h1>
