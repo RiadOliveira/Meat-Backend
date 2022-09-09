@@ -6,11 +6,10 @@ import {
     Column,
     ManyToOne,
 } from 'typeorm';
-import { AccountType } from 'types/AccountType';
-import Company from './Company';
+import Batch from './Batch';
 
-@Entity('users')
-export default class User {
+@Entity('portions')
+export default class Portion {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
@@ -18,22 +17,16 @@ export default class User {
     name: string;
 
     @Column()
-    email: string;
-
-    @Column()
-    password: string;
-
-    @Column()
-    accountType: AccountType;
+    portionBatch: string;
 
     @Column('uuid')
-    companyId?: string;
+    batchId?: string;
 
-    @ManyToOne(() => Company, company => company.employees, {
+    @ManyToOne(() => Batch, batch => batch.portions, {
         onUpdate: 'CASCADE',
-        onDelete: 'SET NULL',
+        onDelete: 'CASCADE',
     })
-    company: Company;
+    batch: Batch;
 
     @CreateDateColumn()
     createdAt: Date;
