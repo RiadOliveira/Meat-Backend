@@ -5,7 +5,9 @@ import {
     CreateDateColumn,
     UpdateDateColumn,
     OneToMany,
+    ManyToOne,
 } from 'typeorm';
+import Company from './Company';
 import Portion from './Portion';
 import Slaughter from './Slaughter';
 import Vaccination from './Vaccination';
@@ -28,7 +30,13 @@ export default class Batch {
     state: string;
 
     @Column('uuid')
-    adminId: string;
+    companyId: string;
+
+    @ManyToOne(() => Company, company => company.batches, {
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+    })
+    company: Company;
 
     @OneToMany(() => Vaccination, vaccination => vaccination.batch)
     vaccinations: Vaccination[];

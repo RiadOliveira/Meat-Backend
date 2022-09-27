@@ -6,6 +6,7 @@ import {
     UpdateDateColumn,
     OneToMany,
 } from 'typeorm';
+import Batch from './Batch';
 import User from './User';
 
 @Entity('companies')
@@ -30,6 +31,9 @@ export default class Company {
 
     @OneToMany(() => User, user => user.company)
     employees: User[];
+
+    @OneToMany(() => Batch, batch => batch.company)
+    batches: Batch[];
 
     @CreateDateColumn()
     createdAt: Date;
