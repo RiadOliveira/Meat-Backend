@@ -10,9 +10,9 @@ interface CreateUserData {
 }
 
 export default class CreateUserService {
-    private usersRepository = new UsersRepository();
+    private static usersRepository = new UsersRepository();
 
-    public async execute(createUserData: CreateUserData): Promise<User> {
+    public static async execute(createUserData: CreateUserData): Promise<User> {
         const findedUser = await this.usersRepository.findByEmail(
             createUserData.email,
         );

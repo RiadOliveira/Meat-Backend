@@ -11,9 +11,9 @@ interface UserData {
 }
 
 export default class UpdateUserService {
-    private usersRepository = new UsersRepository();
+    private static usersRepository = new UsersRepository();
 
-    public async execute({
+    public static async execute({
         name,
         email,
         oldPassword,

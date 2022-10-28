@@ -1,8 +1,8 @@
+import UsersRepository from '@modules/users/repositories/UsersRepository';
 import AppError from 'errors/AppError';
 import { AccountType } from 'types/AccountType';
-import UsersRepository from '../repositories/UsersRepository';
 
-export default class DeleteSubUserService {
+export default class DeleteEmployeeService {
     private usersRepository = new UsersRepository();
 
     public async execute(producerId: string, userId: string): Promise<void> {

@@ -1,6 +1,6 @@
+import UsersRepository from '@modules/users/repositories/UsersRepository';
 import AppError from 'errors/AppError';
 import User from 'typeorm/entities/User';
-import UsersRepository from '../repositories/UsersRepository';
 import { AccountType } from 'types/AccountType';
 
 interface CreateSubUserData {
@@ -11,10 +11,12 @@ interface CreateSubUserData {
     producerId: string;
 }
 
-export default class CreateSubUserService {
-    private usersRepository = new UsersRepository();
+export default class CreateEmployeeService {
+    private static usersRepository = new UsersRepository();
 
-    public async execute(createSubUserData: CreateSubUserData): Promise<User> {
+    public static async execute(
+        createSubUserData: CreateSubUserData,
+    ): Promise<User> {
         if (createSubUserData.accountType === AccountType.PRODUCER) {
             throw new AppError('An producer cannot create another');
         }
