@@ -1,5 +1,6 @@
 import { CreateBatchDTO } from './CreateBatchDTO';
 
-export interface UpdateBatchDTO extends Omit<CreateBatchDTO, 'companyId'> {
+export interface UpdateBatchDTO extends CreateBatchDTO {
     id: string;
+    endingDate?: Date;
 }

@@ -24,7 +24,15 @@ class BatchesRepository implements IBatchesRepository {
     }
 
     public async findById(id: string): Promise<Batch | undefined> {
-        return this.batchesRepository.findOne(id);
+        return this.batchesRepository.findOne({
+            where: { id },
+            relations: [
+                'userThatMadeLastChange',
+                'vaccinations',
+                'portions',
+                'slaughter',
+            ],
+        });
     }
 
     public async findAllFromCompany(companyId: string): Promise<Batch[]> {
@@ -32,6 +40,7 @@ class BatchesRepository implements IBatchesRepository {
             where: {
                 companyId,
             },
+            relations: ['userThatMadeLastChange'],
         });
 
         return findedBatches;

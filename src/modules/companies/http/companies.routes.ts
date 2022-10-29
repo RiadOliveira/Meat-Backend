@@ -48,9 +48,9 @@ companiesRoutes.get(
         const { companyId } = request.params;
 
         const findCompanyByIdService = new FindCompanyByIdService();
-        const findedEmployees = await findCompanyByIdService.execute(companyId);
+        const findedCompany = await findCompanyByIdService.execute(companyId);
 
-        return response.json(findedEmployees);
+        return response.json(findedCompany);
     },
 );
 
@@ -82,7 +82,7 @@ companiesRoutes.put(
             state,
         });
 
-        return response.status(202).json(updatedCompany);
+        return response.status(200).json(updatedCompany);
     },
 );
 

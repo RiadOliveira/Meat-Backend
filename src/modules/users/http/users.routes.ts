@@ -32,7 +32,7 @@ userRoutes.put('/:userId', async (request: Request, response: Response) => {
         userId,
     });
 
-    return response.status(202).json(instanceToInstance(updatedUser));
+    return response.status(200).json(instanceToInstance(updatedUser));
 });
 
 userRoutes.delete('/:userId', async (request: Request, response: Response) => {

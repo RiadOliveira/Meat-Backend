@@ -1,3 +1,4 @@
+import { Transform } from 'class-transformer';
 import {
     Entity,
     Column,
@@ -6,10 +7,16 @@ import {
     UpdateDateColumn,
     OneToMany,
     ManyToOne,
+    OneToOne,
+    JoinColumn,
 } from 'typeorm';
+import { AnimalType } from 'types/AnimalType';
+import { format } from 'date-fns';
+
 import Company from './Company';
 import Portion from './Portion';
 import Slaughter from './Slaughter';
+import User from './User';
 import Vaccination from './Vaccination';
 
 @Entity('batches')
@@ -28,6 +35,31 @@ export default class Batch {
 
     @Column()
     state: string;
+
+    @Column()
+    race: string;
+
+    @Column('timestamp with time zone')
+    @Transform(({ value }) => format(value, 'dd/MM/yyyy'))
+    creationDate: Date;
+
+    @Column('timestamp with time zone')
+    @Transform(({ value }) => format(value, 'dd/MM/yyyy'))
+    endingDate?: Date;
+
+    @Column({ type: 'enum', enum: AnimalType })
+    animal: AnimalType;
+
+    @Column('uuid')
+    idOfUserThatMadeLastChange: string;
+
+    @OneToOne(() => User, user => user)
+    @JoinColumn({
+        name: 'idOfUserThatMadeLastChange',
+        referencedColumnName: 'id',
+    })
+    @Transform(({ value: { name } }) => ({ name }))
+    userThatMadeLastChange: User;
 
     @Column('uuid')
     companyId: string;

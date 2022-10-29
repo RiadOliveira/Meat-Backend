@@ -22,12 +22,22 @@ export class CreateBatchesTable1662730848574 implements MigrationInterface {
                         type: 'varchar',
                     },
                     {
+                        name: 'idOfUserThatMadeLastChange',
+                        type: 'uuid',
+                    },
+                    {
+                        name: 'animal',
+                        type: 'smallint',
+                    },
+                    {
                         name: 'creationDate',
                         type: 'timestamp with time zone',
                     },
                     {
                         name: 'endingDate',
                         type: 'timestamp with time zone',
+                        isNullable: true,
+                        default: null,
                     },
                     {
                         name: 'race',
@@ -63,6 +73,13 @@ export class CreateBatchesTable1662730848574 implements MigrationInterface {
                         referencedColumnNames: ['id'],
                         onUpdate: 'RESTRICT',
                         onDelete: 'CASCADE',
+                    },
+                    {
+                        referencedTableName: 'users',
+                        columnNames: ['idOfUserThatMadeLastChange'],
+                        referencedColumnNames: ['id'],
+                        onUpdate: 'RESTRICT',
+                        onDelete: 'RESTRICT',
                     },
                 ],
             }),

@@ -29,7 +29,7 @@ export default class User {
     accountType: AccountType;
 
     @Column('uuid')
-    companyId?: string;
+    companyId: string;
 
     @ManyToOne(() => Company, company => company.employees, {
         onUpdate: 'CASCADE',
