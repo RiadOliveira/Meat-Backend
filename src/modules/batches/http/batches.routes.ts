@@ -1,10 +1,10 @@
-import { instanceToInstance } from 'class-transformer';
-import { Request, Response, Router } from 'express';
 import CreateBatchService from '../services/CreateBatchService';
 import DeleteBatchService from '../services/DeleteBatchService';
 import FindBatchByIdService from '../services/FindBatchByIdService';
 import ListBatchesFromCompanyService from '../services/ListBatchesFromCompanyService';
 import UpdateBatchService from '../services/UpdateBatchService';
+
+import { Request, Response, Router } from 'express';
 
 export const batchesRoutes = Router();
 
@@ -48,7 +48,7 @@ batchesRoutes.get(
             companyId,
         );
 
-        return response.json(instanceToInstance(findedBatches));
+        return response.json(findedBatches);
     },
 );
 

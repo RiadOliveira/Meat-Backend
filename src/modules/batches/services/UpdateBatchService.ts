@@ -37,6 +37,7 @@ export default class UpdateBatchService {
         const updatedBatch = await this.batchesRepository.save({
             ...findedBatch,
             ...updatedBatchData,
+            idOfUserThatMadeLastChange: userId,
         });
         return updatedBatch;
     }

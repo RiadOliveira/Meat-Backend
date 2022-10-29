@@ -24,6 +24,7 @@ export default class CreateBatchService {
         const createdBatch = await this.batchesRepository.create({
             ...batchData,
             companyId: findedUser.companyId,
+            idOfUserThatMadeLastChange: userId,
         });
         return createdBatch;
     }

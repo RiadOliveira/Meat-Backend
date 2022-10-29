@@ -8,4 +8,5 @@ export interface CreateBatchDTO {
     city: string;
     state: string;
     companyId: string;
+    idOfUserThatMadeLastChange: string;
 }

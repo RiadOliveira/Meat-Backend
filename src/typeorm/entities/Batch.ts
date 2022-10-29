@@ -28,9 +28,6 @@ export default class Batch {
     name: string;
 
     @Column()
-    cnpj: number;
-
-    @Column()
     city: string;
 
     @Column()
