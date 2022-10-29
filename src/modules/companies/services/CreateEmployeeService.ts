@@ -2,41 +2,40 @@ import UsersRepository from '@modules/users/repositories/UsersRepository';
 import AppError from 'errors/AppError';
 import User from 'typeorm/entities/User';
 import { AccountType } from 'types/AccountType';
+import CompaniesRepository from '../repositories/CompaniesRepository';
 
-interface CreateSubUserData {
+interface CreateEmployeeData {
     name: string;
     email: string;
     password: string;
     accountType: AccountType;
-    producerId: string;
 }
 
 export default class CreateEmployeeService {
-    private static usersRepository = new UsersRepository();
+    private companiesRepository = new CompaniesRepository();
+    private usersRepository = new UsersRepository();
 
-    public static async execute(
-        createSubUserData: CreateSubUserData,
+    public async execute(
+        producerId: string,
+        createEmployeeData: CreateEmployeeData,
     ): Promise<User> {
-        if (createSubUserData.accountType === AccountType.PRODUCER) {
+        if (createEmployeeData.accountType === AccountType.PRODUCER) {
             throw new AppError('An producer cannot create another');
         }
 
         const findedUser = await this.usersRepository.findByEmail(
-            createSubUserData.email,
+            createEmployeeData.email,
         );
         if (findedUser) throw new AppError("User's email already exists");
 
-        const findedProducer = await this.usersRepository.findById(
-            createSubUserData.producerId,
+        const findedCompany = await this.companiesRepository.findByProducer(
+            producerId,
         );
-        if (!findedProducer) throw new AppError('Producer not found');
+        if (!findedCompany) throw new AppError('Company not found');
 
-        if (findedProducer.accountType !== AccountType.PRODUCER) {
-            throw new AppError(
-                'Requested producer id does not reference a producer',
-            );
-        }
-
-        return this.usersRepository.create(createSubUserData);
+        return this.usersRepository.create({
+            ...createEmployeeData,
+            companyId: findedCompany.id,
+        });
     }
 }

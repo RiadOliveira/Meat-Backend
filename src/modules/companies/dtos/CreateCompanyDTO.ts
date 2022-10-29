@@ -3,5 +3,4 @@ export interface CreateCompanyDTO {
     cnpj: number;
     city: string;
     state: string;
-    adminId: string;
 }

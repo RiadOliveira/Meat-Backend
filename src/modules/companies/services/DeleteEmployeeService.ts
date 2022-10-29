@@ -5,8 +5,11 @@ import { AccountType } from 'types/AccountType';
 export default class DeleteEmployeeService {
     private usersRepository = new UsersRepository();
 
-    public async execute(producerId: string, userId: string): Promise<void> {
-        const findedUser = await this.usersRepository.findById(userId);
+    public async execute(
+        employeeId: string,
+        producerId: string,
+    ): Promise<void> {
+        const findedUser = await this.usersRepository.findById(employeeId);
         if (!findedUser) {
             throw new AppError('Requested user not found');
         }
@@ -32,6 +35,6 @@ export default class DeleteEmployeeService {
             );
         }
 
-        await this.usersRepository.delete(userId);
+        await this.usersRepository.delete(employeeId);
     }
 }

@@ -1,13 +1,13 @@
 import { MigrationInterface, QueryRunner, TableForeignKey } from 'typeorm';
 
-export class CreateForeignAdminIdInCompanies1662730765616
+export class CreateForeignProducerIdInCompanies1662730765616
     implements MigrationInterface
 {
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createForeignKey(
             'companies',
             new TableForeignKey({
-                columnNames: ['adminId'],
+                columnNames: ['producerId'],
                 referencedColumnNames: ['id'],
                 referencedTableName: 'users',
                 onUpdate: 'RESTRICT',
@@ -17,6 +17,6 @@ export class CreateForeignAdminIdInCompanies1662730765616
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropColumn('companies', 'adminId');
+        await queryRunner.dropColumn('companies', 'producerId');
     }
 }

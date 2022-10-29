@@ -8,10 +8,10 @@ interface UserData {
 }
 
 export default class CreateSessionService {
-    private static usersRepository = new UsersRepository();
+    private usersRepository = new UsersRepository();
 
-    public static async execute({ email, password }: UserData): Promise<User> {
-        const loginErrorMessage = 'Incorrect e-mail or password.';
+    public async execute({ email, password }: UserData): Promise<User> {
+        const loginErrorMessage = 'Incorrect e-mail or password';
 
         const findedUser = await this.usersRepository.findByEmail(email);
         if (!findedUser) throw new AppError(loginErrorMessage);

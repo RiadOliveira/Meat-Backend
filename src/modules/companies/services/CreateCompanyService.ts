@@ -1,46 +1,52 @@
 import UsersRepository from '@modules/users/repositories/UsersRepository';
 import AppError from 'errors/AppError';
 import Company from 'typeorm/entities/Company';
-import { AccountType } from 'types/AccountType';
 import CompaniesRepository from '../repositories/CompaniesRepository';
+
+import { AccountType } from 'types/AccountType';
+
+interface ProducerData {
+    name: string;
+    email: string;
+    password: string;
+}
 
 export interface CompanyData {
     name: string;
     cnpj: number;
     city: string;
     state: string;
-    adminId: string;
+    producer: ProducerData;
 }
 
 export default class CreateCompanyService {
     private usersRepository = new UsersRepository();
     private companiesRepository = new CompaniesRepository();
 
-    public async execute(company: CompanyData): Promise<Company> {
+    public async execute({
+        producer,
+        ...company
+    }: CompanyData): Promise<Company> {
         const findedCompany = await this.companiesRepository.findByCnpj(
             company.cnpj,
         );
-        if (findedCompany) throw new AppError("Company's cnpj already exists.");
+        if (findedCompany) throw new AppError("Company's cnpj already exists");
 
-        const findedUser = await this.usersRepository.findById(company.adminId);
-        if (!findedUser) throw new AppError('User not found.');
+        const findedProducer = await this.usersRepository.findByEmail(
+            producer.email,
+        );
+        if (findedProducer) throw new AppError("User's email already exists");
 
-        if (findedUser.companyId) {
-            throw new AppError(
-                'The requested user already is associated to a company.',
-            );
-        }
+        const createdCompany = await this.companiesRepository.create(company);
+        const createdProducer = await this.usersRepository.create({
+            ...producer,
+            accountType: AccountType.PRODUCER,
+            companyId: createdCompany.id,
+        });
 
-        if (findedUser.accountType !== AccountType.PRODUCER) {
-            throw new AppError(
-                'Requested user does not have a producer account.',
-            );
-        }
+        createdCompany.producerId = createdProducer.id;
+        await this.companiesRepository.save(createdCompany);
 
-        const newCompany = await this.companiesRepository.create(company);
-        findedUser.companyId = newCompany.id;
-        await this.usersRepository.save(findedUser);
-
-        return newCompany;
+        return createdCompany;
     }
 }

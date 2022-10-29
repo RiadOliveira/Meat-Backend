@@ -12,14 +12,14 @@ export default class UpdateCompanyService {
     private companiesRepository = new CompaniesRepository();
 
     public async execute(
-        adminId: string,
+        companyId: string,
         updatedCompany: CompanyData,
     ): Promise<Company> {
-        const findedCompany = await this.companiesRepository.findByAdmin(
-            adminId,
+        const findedCompany = await this.companiesRepository.findById(
+            companyId,
         );
         if (!findedCompany) {
-            throw new AppError('User is not related to any company.');
+            throw new AppError('User is not related to any company');
         }
 
         return this.companiesRepository.save({

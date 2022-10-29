@@ -28,8 +28,10 @@ class CompaniesRepository implements ICompaniesRepository {
         return this.companiesRepository.findOne(id);
     }
 
-    public async findByAdmin(adminId: string): Promise<Company | undefined> {
-        return this.companiesRepository.findOne({ where: { adminId } });
+    public async findByProducer(
+        producerId: string,
+    ): Promise<Company | undefined> {
+        return this.companiesRepository.findOne({ where: { producerId } });
     }
 
     public async findByCnpj(cnpj: number): Promise<Company | undefined> {
@@ -43,10 +45,6 @@ class CompaniesRepository implements ICompaniesRepository {
             companyId,
             { relations: ['employees'] },
         );
-
-        findedCompany?.employees.forEach(employee => {
-            employee.password = '';
-        });
 
         return findedCompany?.employees ?? [];
     }

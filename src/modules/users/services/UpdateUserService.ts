@@ -11,9 +11,9 @@ interface UserData {
 }
 
 export default class UpdateUserService {
-    private static usersRepository = new UsersRepository();
+    private usersRepository = new UsersRepository();
 
-    public static async execute({
+    public async execute({
         name,
         email,
         oldPassword,
@@ -34,7 +34,7 @@ export default class UpdateUserService {
             findedUser.email = email;
         }
 
-        // Password update.
+        // Password update
         if (oldPassword && newPassword) {
             const verifyPassword = oldPassword === findedUser.password;
             if (!verifyPassword) {

@@ -7,6 +7,7 @@ import {
     ManyToOne,
 } from 'typeorm';
 import { AccountType } from 'types/AccountType';
+import { Exclude } from 'class-transformer';
 import Company from './Company';
 
 @Entity('users')
@@ -21,9 +22,10 @@ export default class User {
     email: string;
 
     @Column()
+    @Exclude()
     password: string;
 
-    @Column()
+    @Column({ type: 'enum', enum: AccountType })
     accountType: AccountType;
 
     @Column('uuid')

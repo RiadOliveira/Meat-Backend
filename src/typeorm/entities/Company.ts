@@ -27,7 +27,7 @@ export default class Company {
     state: string;
 
     @Column('uuid')
-    adminId: string;
+    producerId: string;
 
     @OneToMany(() => User, user => user.company)
     employees: User[];

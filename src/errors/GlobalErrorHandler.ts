@@ -3,22 +3,26 @@ import AppError from './AppError';
 import { NextFunction, Request, Response } from 'express';
 
 function GlobalErrorHandler(
-    err: Error,
+    error: Error,
     request: Request,
     response: Response,
     next: NextFunction,
 ): Response {
-    const error = {
-        error: { message: err.message, status: 'error' },
+    const parsedError = {
+        message: '',
+        status: 500,
     };
 
-    if (err instanceof AppError) {
-        const status = err.statusCode || 400;
-        return response.status(status).json(error);
+    if (error instanceof AppError) {
+        parsedError.message = error.message;
+        parsedError.status = error.statusCode || 400;
+
+        return response.status(parsedError.status).json({ error: parsedError });
     }
 
-    error.error.message = 'Internal Server Error.';
-    return response.status(500).json(error);
+    console.log(error.message);
+    parsedError.message = 'Internal Server Error.';
+    return response.status(parsedError.status).json({ error: parsedError });
 }
 
 export default GlobalErrorHandler;

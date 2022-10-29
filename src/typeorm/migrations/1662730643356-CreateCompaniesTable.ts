@@ -26,8 +26,17 @@ export class CreateCompaniesTable1662730643356 implements MigrationInterface {
                         type: 'varchar',
                     },
                     {
-                        name: 'adminId',
+                        name: 'city',
+                        type: 'varchar',
+                    },
+                    {
+                        name: 'state',
+                        type: 'varchar',
+                    },
+                    {
+                        name: 'producerId',
                         type: 'uuid',
+                        isNullable: true,
                     },
                     {
                         name: 'createdAt',

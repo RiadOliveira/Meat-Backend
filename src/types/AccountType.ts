@@ -1,5 +1,5 @@
 export enum AccountType {
-    PRODUCER,
-    VETERINARIAN,
-    NUTRITIONIST,
+    PRODUCER = 0,
+    VETERINARIAN = 1,
+    NUTRITIONIST = 2,
 }

@@ -54,7 +54,7 @@ export class CreateUsersTable1662730674580 implements MigrationInterface {
                         columnNames: ['companyId'],
                         referencedColumnNames: ['id'],
                         onUpdate: 'RESTRICT',
-                        onDelete: 'SET NULL',
+                        onDelete: 'CASCADE',
                     },
                 ],
             }),
