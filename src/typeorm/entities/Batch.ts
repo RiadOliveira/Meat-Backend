@@ -62,7 +62,7 @@ export default class Batch {
     companyId: string;
 
     @ManyToOne(() => Company, company => company.batches, {
-        onUpdate: 'CASCADE',
+        onUpdate: 'RESTRICT',
         onDelete: 'CASCADE',
     })
     company: Company;
@@ -73,8 +73,11 @@ export default class Batch {
     @OneToMany(() => Portion, portion => portion.batch)
     portions: Portion[];
 
-    @OneToMany(() => Slaughter, slaughter => slaughter.batch)
-    slaughter: Slaughter[];
+    @OneToOne(() => Slaughter, slaughter => slaughter.batch, {
+        onUpdate: 'CASCADE',
+        onDelete: 'RESTRICT',
+    })
+    slaughter: Slaughter;
 
     @CreateDateColumn()
     createdAt: Date;

@@ -4,7 +4,8 @@ import {
     CreateDateColumn,
     UpdateDateColumn,
     Column,
-    ManyToOne,
+    OneToOne,
+    JoinColumn,
 } from 'typeorm';
 import Batch from './Batch';
 
@@ -22,9 +23,13 @@ export default class Slaughter {
     @Column('uuid')
     batchId?: string;
 
-    @ManyToOne(() => Batch, batch => batch.slaughter, {
+    @OneToOne(() => Batch, batch => batch.slaughter, {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
+    })
+    @JoinColumn({
+        name: 'batchId',
+        referencedColumnName: 'id',
     })
     batch: Batch;
 

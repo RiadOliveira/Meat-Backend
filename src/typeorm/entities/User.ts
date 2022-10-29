@@ -32,8 +32,8 @@ export default class User {
     companyId: string;
 
     @ManyToOne(() => Company, company => company.employees, {
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL',
+        onUpdate: 'RESTRICT',
+        onDelete: 'CASCADE',
     })
     company: Company;
 

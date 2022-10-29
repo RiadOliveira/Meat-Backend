@@ -45,7 +45,7 @@ export class CreateSlaughterTable1662731459138 implements MigrationInterface {
                         referencedTableName: 'batches',
                         columnNames: ['batchId'],
                         referencedColumnNames: ['id'],
-                        onUpdate: 'RESTRICT',
+                        onUpdate: 'CASCADE',
                         onDelete: 'CASCADE',
                     },
                 ],
