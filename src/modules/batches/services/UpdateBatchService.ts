@@ -22,13 +22,17 @@ export default class UpdateBatchService {
         userId: string,
         updatedBatchData: UpdateBatchData,
     ): Promise<Batch> {
-        const findedUser = await this.usersRepository.findById(userId);
-        if (!findedUser) throw new AppError('User not found', 404);
-
         const findedBatch = await this.batchesRepository.findById(
             updatedBatchData.id,
         );
         if (!findedBatch) throw new AppError('Batch not found', 404);
+
+        if (findedBatch.endingDate) {
+            throw new AppError('This batch is already finished');
+        }
+
+        const findedUser = await this.usersRepository.findById(userId);
+        if (!findedUser) throw new AppError('User not found', 404);
 
         const updatedBatch = await this.batchesRepository.save({
             ...findedBatch,
