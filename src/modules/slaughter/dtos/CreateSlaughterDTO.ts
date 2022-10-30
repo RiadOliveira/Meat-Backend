@@ -1,5 +1,5 @@
 export interface CreateSlaughterDTO {
     method: string;
-    wellTreated: boolean;
+    description: string;
     batchId: string;
 }

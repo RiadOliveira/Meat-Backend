@@ -1,5 +1,6 @@
-import { CreateBatchDTO } from '@modules/batches/dtos/CreateBatchDTO';
+import { CreateSlaughterDTO } from './CreateSlaughterDTO';
 
-export interface UpdateSlaughterDTO extends Omit<CreateBatchDTO, 'batchId'> {
+export interface UpdateSlaughterDTO
+    extends Omit<CreateSlaughterDTO, 'batchId'> {
     id: string;
 }

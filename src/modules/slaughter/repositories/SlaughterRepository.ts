@@ -24,7 +24,10 @@ class SlaughterRepository implements ISlaughterRepository {
     }
 
     public async findById(id: string): Promise<Slaughter | undefined> {
-        return this.slaughterRepository.findOne(id);
+        return this.slaughterRepository.findOne({
+            where: { id },
+            relations: ['batch'],
+        });
     }
 
     public async findAllFromBatch(batchId: string): Promise<Slaughter[]> {

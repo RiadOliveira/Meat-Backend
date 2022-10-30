@@ -22,7 +22,7 @@ companiesRoutes.post('', async (request: Request, response: Response) => {
         producer,
     });
 
-    return response.json(company);
+    return response.status(201).json(company);
 });
 
 companiesRoutes.post(
@@ -38,7 +38,7 @@ companiesRoutes.post(
             accountType,
         });
 
-        return response.json(instanceToInstance(employee));
+        return response.status(201).json(instanceToInstance(employee));
     },
 );
 
@@ -50,7 +50,7 @@ companiesRoutes.get(
         const findCompanyByIdService = new FindCompanyByIdService();
         const findedCompany = await findCompanyByIdService.execute(companyId);
 
-        return response.json(findedCompany);
+        return response.status(200).json(findedCompany);
     },
 );
 
@@ -65,7 +65,7 @@ companiesRoutes.get(
             companyId,
         );
 
-        return response.json(instanceToInstance(findedEmployees));
+        return response.status(200).json(instanceToInstance(findedEmployees));
     },
 );
 

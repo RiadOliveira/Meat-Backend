@@ -22,7 +22,7 @@ batchesRoutes.post('/', async (request: Request, response: Response) => {
         state,
     });
 
-    return response.json(createdBatch);
+    return response.status(201).json(createdBatch);
 });
 
 batchesRoutes.get(
@@ -33,7 +33,7 @@ batchesRoutes.get(
         const findBatchByIdService = new FindBatchByIdService();
         const findedBatch = await findBatchByIdService.execute(batchId);
 
-        return response.json(findedBatch);
+        return response.status(200).json(findedBatch);
     },
 );
 
@@ -48,7 +48,7 @@ batchesRoutes.get(
             companyId,
         );
 
-        return response.json(findedBatches);
+        return response.status(200).json(findedBatches);
     },
 );
 

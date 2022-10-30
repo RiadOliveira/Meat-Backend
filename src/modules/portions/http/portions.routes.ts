@@ -15,7 +15,7 @@ portionsRoutes.post('/', async (request: Request, response: Response) => {
         batchId,
     });
 
-    return response.json(createdPortion);
+    return response.status(201).json(createdPortion);
 });
 
 portionsRoutes.put(

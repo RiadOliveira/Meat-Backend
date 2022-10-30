@@ -15,7 +15,7 @@ vaccinationsRoutes.post('/', async (request: Request, response: Response) => {
         batchId,
     });
 
-    return response.json(createdVaccination);
+    return response.status(201).json(createdVaccination);
 });
 
 vaccinationsRoutes.put(

@@ -16,7 +16,7 @@ userRoutes.post('/sessions', async (request: Request, response: Response) => {
         password,
     });
 
-    return response.json(instanceToInstance(user));
+    return response.status(201).json(instanceToInstance(user));
 });
 
 userRoutes.put('/:userId', async (request: Request, response: Response) => {
