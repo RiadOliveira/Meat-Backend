@@ -24,6 +24,7 @@ export class CreateBatchesTable1662730848574 implements MigrationInterface {
                     {
                         name: 'idOfUserThatMadeLastChange',
                         type: 'uuid',
+                        isNullable: true,
                     },
                     {
                         name: 'animal',
@@ -79,7 +80,7 @@ export class CreateBatchesTable1662730848574 implements MigrationInterface {
                         columnNames: ['idOfUserThatMadeLastChange'],
                         referencedColumnNames: ['id'],
                         onUpdate: 'RESTRICT',
-                        onDelete: 'RESTRICT',
+                        onDelete: 'SET NULL',
                     },
                 ],
             }),

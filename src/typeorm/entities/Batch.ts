@@ -50,7 +50,7 @@ export default class Batch {
     animal: AnimalType;
 
     @Column('uuid')
-    idOfUserThatMadeLastChange: string;
+    idOfUserThatMadeLastChange?: string;
 
     @OneToOne(() => User, user => user)
     @JoinColumn({
@@ -58,7 +58,7 @@ export default class Batch {
         referencedColumnName: 'id',
     })
     @Transform(({ value: { name } }) => ({ name }))
-    userThatMadeLastChange: User;
+    userThatMadeLastChange?: User;
 
     @Column('uuid')
     companyId: string;

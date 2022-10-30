@@ -87,9 +87,10 @@ companiesRoutes.put(
 );
 
 companiesRoutes.delete(
-    '/delete-employee',
+    '/delete-employee/:employeeId',
     async (request: Request, response: Response) => {
-        const { employeeId, producerId } = request.body;
+        const { employeeId } = request.params;
+        const { producerId } = request.body;
 
         const deleteEmployeeService = new DeleteEmployeeService();
         await deleteEmployeeService.execute(employeeId, producerId);
