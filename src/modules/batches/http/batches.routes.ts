@@ -26,17 +26,14 @@ batchesRoutes.post('/', async (request: Request, response: Response) => {
     return response.status(201).json(instanceToInstance(createdBatch));
 });
 
-batchesRoutes.get(
-    '/findById/:batchId',
-    async (request: Request, response: Response) => {
-        const { batchId } = request.params;
+batchesRoutes.get('/:batchId', async (request: Request, response: Response) => {
+    const { batchId } = request.params;
 
-        const findBatchByIdService = new FindBatchByIdService();
-        const findedBatch = await findBatchByIdService.execute(batchId);
+    const findBatchByIdService = new FindBatchByIdService();
+    const findedBatch = await findBatchByIdService.execute(batchId);
 
-        return response.status(200).json(instanceToInstance(findedBatch));
-    },
-);
+    return response.status(200).json(instanceToInstance(findedBatch));
+});
 
 batchesRoutes.get(
     '/list-from-company/:companyId',

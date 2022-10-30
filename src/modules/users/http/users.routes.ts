@@ -4,6 +4,7 @@ import { instanceToInstance } from 'class-transformer';
 import CreateSessionService from '../services/CreateSessionService';
 import DeleteUserService from '../services/DeleteUserService';
 import UpdateUserService from '../services/UpdateUserService';
+import FindUserByIdService from '../services/FindUserByIdService';
 
 export const userRoutes = Router();
 
@@ -17,6 +18,15 @@ userRoutes.post('/sessions', async (request: Request, response: Response) => {
     });
 
     return response.status(201).json(instanceToInstance(user));
+});
+
+userRoutes.get('/:userId', async (request: Request, response: Response) => {
+    const { userId } = request.params;
+
+    const findUserByIdService = new FindUserByIdService();
+    const findedUser = await findUserByIdService.execute(userId);
+
+    return response.status(200).json(instanceToInstance(findedUser));
 });
 
 userRoutes.put('/:userId', async (request: Request, response: Response) => {

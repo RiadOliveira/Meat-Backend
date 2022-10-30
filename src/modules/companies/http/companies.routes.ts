@@ -43,7 +43,7 @@ companiesRoutes.post(
 );
 
 companiesRoutes.get(
-    '/findById/:companyId',
+    '/:companyId',
     async (request: Request, response: Response) => {
         const { companyId } = request.params;
 
