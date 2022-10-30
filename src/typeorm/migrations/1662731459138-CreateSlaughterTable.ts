@@ -30,6 +30,10 @@ export class CreateSlaughterTable1662731459138 implements MigrationInterface {
                         type: 'uuid',
                     },
                     {
+                        name: 'slaughterDate',
+                        type: 'timestamp with time zone',
+                    },
+                    {
                         name: 'createdAt',
                         type: 'timestamp',
                         default: 'now()',

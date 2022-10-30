@@ -6,6 +6,7 @@ interface UpdateSlaughterData {
     id: string;
     method: string;
     description: string;
+    slaughterDate: Date;
 }
 
 export default class UpdateSlaughterService extends SlaughterService {

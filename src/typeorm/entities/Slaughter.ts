@@ -1,3 +1,5 @@
+import { Transform } from 'class-transformer';
+import { format } from 'date-fns';
 import {
     Entity,
     PrimaryGeneratedColumn,
@@ -32,6 +34,12 @@ export default class Slaughter {
         referencedColumnName: 'id',
     })
     batch: Batch;
+
+    @Column('timestamp with time zone')
+    @Transform(({ value }) =>
+        !value ? value : format(new Date(value), 'dd/MM/yyyy'),
+    )
+    slaughterDate: Date;
 
     @CreateDateColumn()
     createdAt: Date;

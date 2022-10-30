@@ -5,6 +5,7 @@ import SlaughterService from './SlaughterService';
 interface SlaughterData {
     method: string;
     description: string;
+    slaughterDate: Date;
     batchId: string;
 }
 
