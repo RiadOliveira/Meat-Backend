@@ -26,7 +26,10 @@ class VaccinationsRepository implements IVaccinationsRepository {
     }
 
     public async findById(id: string): Promise<Vaccination | undefined> {
-        return this.vaccinationsRepository.findOne(id);
+        return this.vaccinationsRepository.findOne({
+            where: { id },
+            relations: ['batch'],
+        });
     }
 
     public async findAllFromBatch(batchId: string): Promise<Vaccination[]> {

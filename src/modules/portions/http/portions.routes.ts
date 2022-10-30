@@ -25,13 +25,13 @@ portionsRoutes.put(
         const { name, portionBatch, userId } = request.body;
 
         const updatePortionService = new UpdatePortionService();
-        const updatedBatch = await updatePortionService.execute(userId, {
+        const updatedPortion = await updatePortionService.execute(userId, {
             id: portionId,
             name,
             portionBatch,
         });
 
-        return response.status(200).json(updatedBatch);
+        return response.status(200).json(updatedPortion);
     },
 );
 
