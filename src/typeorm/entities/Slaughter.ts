@@ -18,13 +18,13 @@ export default class Slaughter {
     method: string;
 
     @Column()
-    wellTreated: boolean;
+    description: string;
 
     @Column('uuid')
-    batchId?: string;
+    batchId: string;
 
     @OneToOne(() => Batch, batch => batch.slaughter, {
-        onUpdate: 'CASCADE',
+        onUpdate: 'RESTRICT',
         onDelete: 'CASCADE',
     })
     @JoinColumn({

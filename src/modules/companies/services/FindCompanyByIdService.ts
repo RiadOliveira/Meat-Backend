@@ -9,7 +9,7 @@ export default class FindCompanyByIdService {
         const findedCompany = await this.companiesRepository.findById(
             companyId,
         );
-        if (!findedCompany) throw new AppError('Company not found');
+        if (!findedCompany) throw new AppError('Company not found', 404);
 
         return findedCompany;
     }

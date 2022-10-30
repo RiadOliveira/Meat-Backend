@@ -8,7 +8,7 @@ export default class DeleteCompanyService {
         const findedCompany = await this.companiesRepository.findById(
             companyId,
         );
-        if (!findedCompany) throw new AppError('Company not found');
+        if (!findedCompany) throw new AppError('Company not found', 404);
 
         await this.companiesRepository.delete(findedCompany.id);
     }

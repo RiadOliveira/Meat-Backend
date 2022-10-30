@@ -20,10 +20,10 @@ export default class Portion {
     portionBatch: string;
 
     @Column('uuid')
-    batchId?: string;
+    batchId: string;
 
     @ManyToOne(() => Batch, batch => batch.portions, {
-        onUpdate: 'CASCADE',
+        onUpdate: 'RESTRICT',
         onDelete: 'CASCADE',
     })
     batch: Batch;

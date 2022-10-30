@@ -22,8 +22,8 @@ export class CreateSlaughterTable1662731459138 implements MigrationInterface {
                         type: 'varchar',
                     },
                     {
-                        name: 'wellTreated',
-                        type: 'boolean',
+                        name: 'description',
+                        type: 'varchar',
                     },
                     {
                         name: 'batchId',
@@ -45,7 +45,7 @@ export class CreateSlaughterTable1662731459138 implements MigrationInterface {
                         referencedTableName: 'batches',
                         columnNames: ['batchId'],
                         referencedColumnNames: ['id'],
-                        onUpdate: 'CASCADE',
+                        onUpdate: 'RESTRICT',
                         onDelete: 'CASCADE',
                     },
                 ],

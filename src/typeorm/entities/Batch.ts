@@ -67,10 +67,12 @@ export default class Batch {
     })
     company: Company;
 
-    @OneToMany(() => Vaccination, vaccination => vaccination.batch)
+    @OneToMany(() => Vaccination, vaccination => vaccination.batch, {
+        onUpdate: 'CASCADE',
+    })
     vaccinations: Vaccination[];
 
-    @OneToMany(() => Portion, portion => portion.batch)
+    @OneToMany(() => Portion, portion => portion.batch, { onUpdate: 'CASCADE' })
     portions: Portion[];
 
     @OneToOne(() => Slaughter, slaughter => slaughter.batch, {

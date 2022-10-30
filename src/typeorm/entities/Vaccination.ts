@@ -20,10 +20,10 @@ export default class Vaccination {
     vaccinationBatch: string;
 
     @Column('uuid')
-    batchId?: string;
+    batchId: string;
 
     @ManyToOne(() => Batch, batch => batch.vaccinations, {
-        onUpdate: 'CASCADE',
+        onUpdate: 'RESTRICT',
         onDelete: 'CASCADE',
     })
     batch: Batch;

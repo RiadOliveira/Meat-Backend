@@ -11,7 +11,7 @@ export default class DeleteEmployeeService {
     ): Promise<void> {
         const findedUser = await this.usersRepository.findById(employeeId);
         if (!findedUser) {
-            throw new AppError('Requested user not found');
+            throw new AppError('Requested user not found', 404);
         }
 
         if (findedUser.accountType === AccountType.PRODUCER) {
@@ -20,7 +20,7 @@ export default class DeleteEmployeeService {
 
         const findedProducer = await this.usersRepository.findById(producerId);
         if (!findedProducer) {
-            throw new AppError('Requested producer not found');
+            throw new AppError('Requested producer not found', 404);
         }
 
         if (findedProducer.accountType !== AccountType.PRODUCER) {

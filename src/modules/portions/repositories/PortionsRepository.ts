@@ -24,7 +24,10 @@ class PortionsRepository implements IPortionsRepository {
     }
 
     public async findById(id: string): Promise<Portion | undefined> {
-        return this.portionsRepository.findOne(id);
+        return this.portionsRepository.findOne({
+            where: { id },
+            relations: ['batch'],
+        });
     }
 
     public async findAllFromBatch(batchId: string): Promise<Portion[]> {

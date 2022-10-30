@@ -24,6 +24,10 @@ class BatchesRepository implements IBatchesRepository {
     }
 
     public async findById(id: string): Promise<Batch | undefined> {
+        return this.batchesRepository.findOne(id);
+    }
+
+    public async findByIdWithRelations(id: string): Promise<Batch | undefined> {
         return this.batchesRepository.findOne({
             where: { id },
             relations: [

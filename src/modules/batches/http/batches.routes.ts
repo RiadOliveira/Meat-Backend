@@ -8,12 +8,12 @@ import { Request, Response, Router } from 'express';
 
 export const batchesRoutes = Router();
 
-batchesRoutes.post('/:userId', async (request: Request, response: Response) => {
-    const { userId } = request.params;
-    const { name, creationDate, animal, race, city, state } = request.body;
+batchesRoutes.post('/', async (request: Request, response: Response) => {
+    const { userId, name, creationDate, animal, race, city, state } =
+        request.body;
 
     const createBatchService = new CreateBatchService();
-    const createBatch = await createBatchService.execute(userId, {
+    const createdBatch = await createBatchService.execute(userId, {
         name,
         creationDate,
         animal,
@@ -22,7 +22,7 @@ batchesRoutes.post('/:userId', async (request: Request, response: Response) => {
         state,
     });
 
-    return response.json(createBatch);
+    return response.json(createdBatch);
 });
 
 batchesRoutes.get(
@@ -52,13 +52,14 @@ batchesRoutes.get(
     },
 );
 
-batchesRoutes.put('/:userId', async (request: Request, response: Response) => {
-    const { userId } = request.params;
-    const { id, name, animal, race, city, state, endingDate } = request.body;
+batchesRoutes.put('/:batchId', async (request: Request, response: Response) => {
+    const { batchId } = request.params;
+    const { name, animal, race, city, state, endingDate, userId } =
+        request.body;
 
     const updateBatchService = new UpdateBatchService();
     const updatedBatch = await updateBatchService.execute(userId, {
-        id,
+        id: batchId,
         name,
         animal,
         race,
@@ -74,9 +75,10 @@ batchesRoutes.delete(
     '/:batchId',
     async (request: Request, response: Response) => {
         const { batchId } = request.params;
+        const { userId } = request.body;
 
         const deleteBatchService = new DeleteBatchService();
-        await deleteBatchService.execute(batchId);
+        await deleteBatchService.execute(batchId, userId);
 
         return response.status(204).json();
     },

@@ -2,7 +2,9 @@ import UsersRepository from '@modules/users/repositories/UsersRepository';
 import AppError from 'errors/AppError';
 import Batch from 'typeorm/entities/Batch';
 import BatchesRepository from '../repositories/BatchesRepository';
+
 import { AnimalType } from 'types/AnimalType';
+import { validateBatchAction } from '../utils/validateBatchAction';
 
 interface UpdateBatchData {
     id: string;
@@ -33,6 +35,10 @@ export default class UpdateBatchService {
 
         const findedUser = await this.usersRepository.findById(userId);
         if (!findedUser) throw new AppError('User not found', 404);
+
+        if (updatedBatchData.endingDate) {
+            validateBatchAction(findedUser, 'finish');
+        }
 
         const updatedBatch = await this.batchesRepository.save({
             ...findedBatch,

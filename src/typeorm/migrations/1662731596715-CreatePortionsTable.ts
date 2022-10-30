@@ -45,7 +45,7 @@ export class CreatePortionsTable1662731596715 implements MigrationInterface {
                         referencedTableName: 'batches',
                         columnNames: ['batchId'],
                         referencedColumnNames: ['id'],
-                        onUpdate: 'CASCADE',
+                        onUpdate: 'RESTRICT',
                         onDelete: 'CASCADE',
                     },
                 ],

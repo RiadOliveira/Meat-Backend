@@ -2,7 +2,9 @@ import UsersRepository from '@modules/users/repositories/UsersRepository';
 import AppError from 'errors/AppError';
 import Batch from 'typeorm/entities/Batch';
 import BatchesRepository from '../repositories/BatchesRepository';
+
 import { AnimalType } from 'types/AnimalType';
+import { validateBatchAction } from '../utils/validateBatchAction';
 
 interface BatchData {
     name: string;
@@ -20,6 +22,7 @@ export default class CreateBatchService {
     public async execute(userId: string, batchData: BatchData): Promise<Batch> {
         const findedUser = await this.usersRepository.findById(userId);
         if (!findedUser) throw new AppError('User not found', 404);
+        validateBatchAction(findedUser, 'create');
 
         const createdBatch = await this.batchesRepository.create({
             ...batchData,

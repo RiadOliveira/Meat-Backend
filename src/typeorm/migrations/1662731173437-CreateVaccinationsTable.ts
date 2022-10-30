@@ -47,7 +47,7 @@ export class CreateVaccinationsTable1662731173437
                         referencedTableName: 'batches',
                         columnNames: ['batchId'],
                         referencedColumnNames: ['id'],
-                        onUpdate: 'CASCADE',
+                        onUpdate: 'RESTRICT',
                         onDelete: 'CASCADE',
                     },
                 ],

@@ -31,7 +31,7 @@ export default class CreateEmployeeService {
         const findedCompany = await this.companiesRepository.findByProducer(
             producerId,
         );
-        if (!findedCompany) throw new AppError('Company not found');
+        if (!findedCompany) throw new AppError('Company not found', 404);
 
         return this.usersRepository.create({
             ...createEmployeeData,
