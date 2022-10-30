@@ -1,7 +1,6 @@
-import UsersRepository from '@modules/users/repositories/UsersRepository';
 import AppError from 'errors/AppError';
 import Batch from 'typeorm/entities/Batch';
-import BatchesRepository from '../repositories/BatchesRepository';
+import BatchService from './BatchService';
 
 import { AnimalType } from 'types/AnimalType';
 import { validateBatchAction } from '../utils/validateBatchAction';
@@ -16,10 +15,7 @@ interface UpdateBatchData {
     endingDate?: Date;
 }
 
-export default class UpdateBatchService {
-    private batchesRepository = new BatchesRepository();
-    private usersRepository = new UsersRepository();
-
+export default class UpdateBatchService extends BatchService {
     public async execute(
         userId: string,
         updatedBatchData: UpdateBatchData,

@@ -1,10 +1,9 @@
-import { instanceToInstance } from 'class-transformer';
 import Batch from 'typeorm/entities/Batch';
-import BatchesRepository from '../repositories/BatchesRepository';
+import BatchService from './BatchService';
 
-export default class ListBatchesFromCompanyService {
-    private batchesRepository = new BatchesRepository();
+import { instanceToInstance } from 'class-transformer';
 
+export default class ListBatchesFromCompanyService extends BatchService {
     public async execute(companyId: string): Promise<Batch[]> {
         const findedBatches = await this.batchesRepository.findAllFromCompany(
             companyId,

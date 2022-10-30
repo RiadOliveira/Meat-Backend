@@ -1,9 +1,7 @@
 import AppError from 'errors/AppError';
-import UsersRepository from '../repositories/UsersRepository';
+import UserService from './UserService';
 
-export default class DeleteUserService {
-    private usersRepository = new UsersRepository();
-
+export default class DeleteUserService extends UserService {
     public async execute(userId: string): Promise<void> {
         const findedUser = await this.usersRepository.findById(userId);
         if (!findedUser) throw new AppError('Requested user not found', 404);

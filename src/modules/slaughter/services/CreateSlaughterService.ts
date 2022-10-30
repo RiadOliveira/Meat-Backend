@@ -1,9 +1,6 @@
-import BatchesRepository from '@modules/batches/repositories/BatchesRepository';
-import UpdateIdOfUserThatMadeLastChangeOnBatchService from '@modules/batches/services/UpdateIdOfUserThatMadeLastChangeOnBatchService';
-import ValidateBatchRelatedEntityOperationService from '@modules/batches/services/ValidateBatchRelatedEntityOperationService';
 import AppError from 'errors/AppError';
 import Slaughter from 'typeorm/entities/Slaughter';
-import SlaughterRepository from '../repositories/SlaughterRepository';
+import SlaughterService from './SlaughterService';
 
 interface SlaughterData {
     method: string;
@@ -11,15 +8,7 @@ interface SlaughterData {
     batchId: string;
 }
 
-export default class CreateSlaughterService {
-    private batchesRepository = new BatchesRepository();
-    private slaughterRepository = new SlaughterRepository();
-
-    private updateIdOfUserThatMadeLastChangeOnBatchService =
-        new UpdateIdOfUserThatMadeLastChangeOnBatchService();
-    private validateBatchRelatedEntityOperationService =
-        new ValidateBatchRelatedEntityOperationService();
-
+export default class CreateSlaughterService extends SlaughterService {
     public async execute(
         userId: string,
         slaughterData: SlaughterData,
@@ -29,19 +18,11 @@ export default class CreateSlaughterService {
         );
         if (!findedBatch) throw new AppError('Batch not found', 404);
 
-        await this.validateBatchRelatedEntityOperationService.execute(
-            findedBatch,
-            userId,
-        );
-
+        await this.validateBatchRelatedEntityOperation(findedBatch, userId);
         const createdSlaughter = await this.slaughterRepository.create(
             slaughterData,
         );
-
-        await this.updateIdOfUserThatMadeLastChangeOnBatchService.execute(
-            findedBatch,
-            userId,
-        );
+        await this.updateIdOfUserThatMadeLastChangeOnBatch(findedBatch, userId);
 
         return createdSlaughter;
     }

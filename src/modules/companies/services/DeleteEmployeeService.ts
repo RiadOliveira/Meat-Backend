@@ -1,10 +1,9 @@
-import UsersRepository from '@modules/users/repositories/UsersRepository';
 import AppError from 'errors/AppError';
+import CompanyService from './CompanyService';
+
 import { AccountType } from 'types/AccountType';
 
-export default class DeleteEmployeeService {
-    private usersRepository = new UsersRepository();
-
+export default class DeleteEmployeeService extends CompanyService {
     public async execute(
         employeeId: string,
         producerId: string,

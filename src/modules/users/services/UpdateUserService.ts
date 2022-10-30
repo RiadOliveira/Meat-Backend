@@ -1,6 +1,6 @@
 import AppError from 'errors/AppError';
 import User from 'typeorm/entities/User';
-import UsersRepository from '../repositories/UsersRepository';
+import UserService from './UserService';
 
 interface UserData {
     name: string;
@@ -10,9 +10,7 @@ interface UserData {
     userId: string;
 }
 
-export default class UpdateUserService {
-    private usersRepository = new UsersRepository();
-
+export default class UpdateUserService extends UserService {
     public async execute({
         name,
         email,

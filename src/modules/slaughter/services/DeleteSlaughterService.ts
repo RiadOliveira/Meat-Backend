@@ -1,13 +1,7 @@
-import ValidateBatchRelatedEntityOperationService from '@modules/batches/services/ValidateBatchRelatedEntityOperationService';
 import AppError from 'errors/AppError';
-import SlaughterRepository from '../repositories/SlaughterRepository';
+import SlaughterService from './SlaughterService';
 
-export default class DeleteSlaughterService {
-    private slaughterRepository = new SlaughterRepository();
-
-    private validateBatchRelatedEntityOperationService =
-        new ValidateBatchRelatedEntityOperationService();
-
+export default class DeleteSlaughterService extends SlaughterService {
     public async execute(slaughterId: string, userId: string): Promise<void> {
         const findedSlaughter = await this.slaughterRepository.findById(
             slaughterId,
@@ -16,7 +10,7 @@ export default class DeleteSlaughterService {
             throw new AppError('Slaughter not found', 404);
         }
 
-        await this.validateBatchRelatedEntityOperationService.execute(
+        await this.validateBatchRelatedEntityOperation(
             findedSlaughter.batch,
             userId,
         );

@@ -1,7 +1,6 @@
-import UsersRepository from '@modules/users/repositories/UsersRepository';
 import AppError from 'errors/AppError';
 import Company from 'typeorm/entities/Company';
-import CompaniesRepository from '../repositories/CompaniesRepository';
+import CompanyService from './CompanyService';
 
 import { AccountType } from 'types/AccountType';
 
@@ -19,10 +18,7 @@ export interface CompanyData {
     producer: ProducerData;
 }
 
-export default class CreateCompanyService {
-    private usersRepository = new UsersRepository();
-    private companiesRepository = new CompaniesRepository();
-
+export default class CreateCompanyService extends CompanyService {
     public async execute({
         producer,
         ...company

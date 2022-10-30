@@ -1,15 +1,13 @@
 import AppError from 'errors/AppError';
 import User from 'typeorm/entities/User';
-import UsersRepository from '../repositories/UsersRepository';
+import UserService from './UserService';
 
 interface UserData {
     email: string;
     password: string;
 }
 
-export default class CreateSessionService {
-    private usersRepository = new UsersRepository();
-
+export default class CreateSessionService extends UserService {
     public async execute({ email, password }: UserData): Promise<User> {
         const loginErrorMessage = 'Incorrect e-mail or password';
 

@@ -1,11 +1,10 @@
-import { instanceToInstance } from 'class-transformer';
 import AppError from 'errors/AppError';
 import Batch from 'typeorm/entities/Batch';
-import BatchesRepository from '../repositories/BatchesRepository';
+import BatchService from './BatchService';
 
-export default class FindBatchByIdService {
-    private batchesRepository = new BatchesRepository();
+import { instanceToInstance } from 'class-transformer';
 
+export default class FindBatchByIdService extends BatchService {
     public async execute(batchId: string): Promise<Batch> {
         const findedBatch = await this.batchesRepository.findByIdWithRelations(
             batchId,

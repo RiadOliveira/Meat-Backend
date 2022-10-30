@@ -1,9 +1,6 @@
-import BatchesRepository from '@modules/batches/repositories/BatchesRepository';
-import UpdateIdOfUserThatMadeLastChangeOnBatchService from '@modules/batches/services/UpdateIdOfUserThatMadeLastChangeOnBatchService';
-import ValidateBatchRelatedEntityOperationService from '@modules/batches/services/ValidateBatchRelatedEntityOperationService';
 import AppError from 'errors/AppError';
 import Slaughter from 'typeorm/entities/Slaughter';
-import SlaughterRepository from '../repositories/SlaughterRepository';
+import SlaughterService from './SlaughterService';
 
 interface UpdateSlaughterData {
     id: string;
@@ -11,15 +8,7 @@ interface UpdateSlaughterData {
     description: string;
 }
 
-export default class UpdateSlaughterService {
-    private slaughterRepository = new SlaughterRepository();
-    private batchesRepository = new BatchesRepository();
-
-    private updateIdOfUserThatMadeLastChangeOnBatchService =
-        new UpdateIdOfUserThatMadeLastChangeOnBatchService();
-    private validateBatchRelatedEntityOperationService =
-        new ValidateBatchRelatedEntityOperationService();
-
+export default class UpdateSlaughterService extends SlaughterService {
     public async execute(
         userId: string,
         updateSlaughterData: UpdateSlaughterData,
@@ -34,20 +23,12 @@ export default class UpdateSlaughterService {
         );
         if (!findedBatch) throw new AppError('Batch not found', 404);
 
-        await this.validateBatchRelatedEntityOperationService.execute(
-            findedBatch,
-            userId,
-        );
-
+        await this.validateBatchRelatedEntityOperation(findedBatch, userId);
         const updatedSlaughter = await this.slaughterRepository.save({
             ...findedSlaughter,
             ...updateSlaughterData,
         });
-
-        await this.updateIdOfUserThatMadeLastChangeOnBatchService.execute(
-            findedBatch,
-            userId,
-        );
+        await this.updateIdOfUserThatMadeLastChangeOnBatch(findedBatch, userId);
 
         return updatedSlaughter;
     }

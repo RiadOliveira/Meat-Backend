@@ -1,9 +1,7 @@
 import AppError from 'errors/AppError';
-import CompaniesRepository from '../repositories/CompaniesRepository';
+import CompanyService from './CompanyService';
 
-export default class DeleteCompanyService {
-    private companiesRepository = new CompaniesRepository();
-
+export default class DeleteCompanyService extends CompanyService {
     public async execute(companyId: string): Promise<void> {
         const findedCompany = await this.companiesRepository.findById(
             companyId,

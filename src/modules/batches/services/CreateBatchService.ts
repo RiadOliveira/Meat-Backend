@@ -1,10 +1,9 @@
-import UsersRepository from '@modules/users/repositories/UsersRepository';
 import AppError from 'errors/AppError';
 import Batch from 'typeorm/entities/Batch';
-import BatchesRepository from '../repositories/BatchesRepository';
 
 import { AnimalType } from 'types/AnimalType';
 import { validateBatchAction } from '../utils/validateBatchAction';
+import BatchService from './BatchService';
 
 interface BatchData {
     name: string;
@@ -15,10 +14,7 @@ interface BatchData {
     state: string;
 }
 
-export default class CreateBatchService {
-    private batchesRepository = new BatchesRepository();
-    private usersRepository = new UsersRepository();
-
+export default class CreateBatchService extends BatchService {
     public async execute(userId: string, batchData: BatchData): Promise<Batch> {
         const findedUser = await this.usersRepository.findById(userId);
         if (!findedUser) throw new AppError('User not found', 404);

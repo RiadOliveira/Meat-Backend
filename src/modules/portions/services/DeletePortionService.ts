@@ -1,18 +1,12 @@
-import ValidateBatchRelatedEntityOperationService from '@modules/batches/services/ValidateBatchRelatedEntityOperationService';
 import AppError from 'errors/AppError';
-import PortionsRepository from '../repositories/PortionsRepository';
+import PortionService from './PortionService';
 
-export default class DeletePortionService {
-    private portionsRepository = new PortionsRepository();
-
-    private validateBatchRelatedEntityOperationService =
-        new ValidateBatchRelatedEntityOperationService();
-
+export default class DeletePortionService extends PortionService {
     public async execute(portionId: string, userId: string): Promise<void> {
         const findedPortion = await this.portionsRepository.findById(portionId);
         if (!findedPortion) throw new AppError('Portion not found', 404);
 
-        await this.validateBatchRelatedEntityOperationService.execute(
+        await this.validateBatchRelatedEntityOperation(
             findedPortion.batch,
             userId,
         );

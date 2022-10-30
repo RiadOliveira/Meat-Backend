@@ -1,13 +1,7 @@
-import ValidateBatchRelatedEntityOperationService from '@modules/batches/services/ValidateBatchRelatedEntityOperationService';
 import AppError from 'errors/AppError';
-import VaccinationsRepository from '../repositories/VaccinationsRepository';
+import VaccinationService from './VaccinationService';
 
-export default class DeleteVaccinationService {
-    private vaccinationsRepository = new VaccinationsRepository();
-
-    private validateBatchRelatedEntityOperationService =
-        new ValidateBatchRelatedEntityOperationService();
-
+export default class DeleteVaccinationService extends VaccinationService {
     public async execute(vaccinationId: string, userId: string): Promise<void> {
         const findedVaccination = await this.vaccinationsRepository.findById(
             vaccinationId,
@@ -16,7 +10,7 @@ export default class DeleteVaccinationService {
             throw new AppError('Vaccination not found', 404);
         }
 
-        await this.validateBatchRelatedEntityOperationService.execute(
+        await this.validateBatchRelatedEntityOperation(
             findedVaccination.batch,
             userId,
         );

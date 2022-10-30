@@ -1,9 +1,7 @@
 import User from 'typeorm/entities/User';
-import CompaniesRepository from '../repositories/CompaniesRepository';
+import CompanyService from './CompanyService';
 
-export default class ListEmployeesFromCompanyService {
-    private companiesRepository = new CompaniesRepository();
-
+export default class ListEmployeesFromCompanyService extends CompanyService {
     public async execute(companyId: string): Promise<User[]> {
         const findedEmployees =
             await this.companiesRepository.findAllEmployeesFromCompany(

@@ -1,6 +1,6 @@
 import AppError from 'errors/AppError';
 import Company from 'typeorm/entities/Company';
-import CompaniesRepository from '../repositories/CompaniesRepository';
+import CompanyService from './CompanyService';
 
 export interface CompanyData {
     name: string;
@@ -8,9 +8,7 @@ export interface CompanyData {
     state: string;
 }
 
-export default class UpdateCompanyService {
-    private companiesRepository = new CompaniesRepository();
-
+export default class UpdateCompanyService extends CompanyService {
     public async execute(
         companyId: string,
         updatedCompany: CompanyData,

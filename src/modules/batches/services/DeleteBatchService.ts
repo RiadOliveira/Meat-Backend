@@ -1,12 +1,8 @@
-import UsersRepository from '@modules/users/repositories/UsersRepository';
 import AppError from 'errors/AppError';
-import BatchesRepository from '../repositories/BatchesRepository';
 import { validateBatchAction } from '../utils/validateBatchAction';
+import BatchService from './BatchService';
 
-export default class DeleteBatchService {
-    private batchesRepository = new BatchesRepository();
-    private usersRepository = new UsersRepository();
-
+export default class DeleteBatchService extends BatchService {
     public async execute(batchId: string, userId: string): Promise<void> {
         const findedBatch = await this.batchesRepository.findById(batchId);
         if (!findedBatch) throw new AppError('Batch not found', 404);

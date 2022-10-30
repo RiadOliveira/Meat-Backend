@@ -1,9 +1,6 @@
-import BatchesRepository from '@modules/batches/repositories/BatchesRepository';
-import UpdateIdOfUserThatMadeLastChangeOnBatchService from '@modules/batches/services/UpdateIdOfUserThatMadeLastChangeOnBatchService';
-import ValidateBatchRelatedEntityOperationService from '@modules/batches/services/ValidateBatchRelatedEntityOperationService';
 import AppError from 'errors/AppError';
 import Vaccination from 'typeorm/entities/Vaccination';
-import VaccinationsRepository from '../repositories/VaccinationsRepository';
+import VaccinationService from './VaccinationService';
 
 interface UpdateVaccinationData {
     id: string;
@@ -11,15 +8,7 @@ interface UpdateVaccinationData {
     vaccinationBatch: string;
 }
 
-export default class UpdateVaccinationService {
-    private vaccinationsRepository = new VaccinationsRepository();
-    private batchesRepository = new BatchesRepository();
-
-    private updateIdOfUserThatMadeLastChangeOnBatchService =
-        new UpdateIdOfUserThatMadeLastChangeOnBatchService();
-    private validateBatchRelatedEntityOperationService =
-        new ValidateBatchRelatedEntityOperationService();
-
+export default class UpdateVaccinationService extends VaccinationService {
     public async execute(
         userId: string,
         updateVaccinationData: UpdateVaccinationData,
@@ -35,20 +24,12 @@ export default class UpdateVaccinationService {
         );
         if (!findedBatch) throw new AppError('Batch not found', 404);
 
-        await this.validateBatchRelatedEntityOperationService.execute(
-            findedBatch,
-            userId,
-        );
-
+        await this.validateBatchRelatedEntityOperation(findedBatch, userId);
         const updatedVaccination = await this.vaccinationsRepository.save({
             ...findedVaccination,
             ...updateVaccinationData,
         });
-
-        await this.updateIdOfUserThatMadeLastChangeOnBatchService.execute(
-            findedBatch,
-            userId,
-        );
+        await this.updateIdOfUserThatMadeLastChangeOnBatch(findedBatch, userId);
 
         return updatedVaccination;
     }

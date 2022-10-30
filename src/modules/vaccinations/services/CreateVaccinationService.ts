@@ -1,9 +1,6 @@
-import BatchesRepository from '@modules/batches/repositories/BatchesRepository';
-import UpdateIdOfUserThatMadeLastChangeOnBatchService from '@modules/batches/services/UpdateIdOfUserThatMadeLastChangeOnBatchService';
-import ValidateBatchRelatedEntityOperationService from '@modules/batches/services/ValidateBatchRelatedEntityOperationService';
 import AppError from 'errors/AppError';
 import Vaccination from 'typeorm/entities/Vaccination';
-import VaccinationsRepository from '../repositories/VaccinationsRepository';
+import VaccinationService from './VaccinationService';
 
 interface VaccinationData {
     name: string;
@@ -11,15 +8,7 @@ interface VaccinationData {
     batchId: string;
 }
 
-export default class CreateVaccinationService {
-    private batchesRepository = new BatchesRepository();
-    private vaccinationsRepository = new VaccinationsRepository();
-
-    private updateIdOfUserThatMadeLastChangeOnBatchService =
-        new UpdateIdOfUserThatMadeLastChangeOnBatchService();
-    private validateBatchRelatedEntityOperationService =
-        new ValidateBatchRelatedEntityOperationService();
-
+export default class CreateVaccinationService extends VaccinationService {
     public async execute(
         userId: string,
         vaccinationData: VaccinationData,
@@ -29,19 +18,11 @@ export default class CreateVaccinationService {
         );
         if (!findedBatch) throw new AppError('Batch not found', 404);
 
-        await this.validateBatchRelatedEntityOperationService.execute(
-            findedBatch,
-            userId,
-        );
-
+        await this.validateBatchRelatedEntityOperation(findedBatch, userId);
         const createdVaccination = await this.vaccinationsRepository.create(
             vaccinationData,
         );
-
-        await this.updateIdOfUserThatMadeLastChangeOnBatchService.execute(
-            findedBatch,
-            userId,
-        );
+        await this.updateIdOfUserThatMadeLastChangeOnBatch(findedBatch, userId);
 
         return createdVaccination;
     }
