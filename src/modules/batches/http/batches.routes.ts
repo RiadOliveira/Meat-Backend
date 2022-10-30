@@ -5,6 +5,7 @@ import ListBatchesFromCompanyService from '../services/ListBatchesFromCompanySer
 import UpdateBatchService from '../services/UpdateBatchService';
 
 import { Request, Response, Router } from 'express';
+import { instanceToInstance } from 'class-transformer';
 
 export const batchesRoutes = Router();
 
@@ -22,7 +23,7 @@ batchesRoutes.post('/', async (request: Request, response: Response) => {
         state,
     });
 
-    return response.status(201).json(createdBatch);
+    return response.status(201).json(instanceToInstance(createdBatch));
 });
 
 batchesRoutes.get(
@@ -33,7 +34,7 @@ batchesRoutes.get(
         const findBatchByIdService = new FindBatchByIdService();
         const findedBatch = await findBatchByIdService.execute(batchId);
 
-        return response.status(200).json(findedBatch);
+        return response.status(200).json(instanceToInstance(findedBatch));
     },
 );
 
@@ -48,7 +49,7 @@ batchesRoutes.get(
             companyId,
         );
 
-        return response.status(200).json(findedBatches);
+        return response.status(200).json(instanceToInstance(findedBatches));
     },
 );
 
@@ -68,7 +69,7 @@ batchesRoutes.put('/:batchId', async (request: Request, response: Response) => {
         endingDate,
     });
 
-    return response.status(200).json(updatedBatch);
+    return response.status(200).json(instanceToInstance(updatedBatch));
 });
 
 batchesRoutes.delete(

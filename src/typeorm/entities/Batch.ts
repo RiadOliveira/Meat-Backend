@@ -37,11 +37,13 @@ export default class Batch {
     race: string;
 
     @Column('timestamp with time zone')
-    @Transform(({ value }) => format(value, 'dd/MM/yyyy'))
+    @Transform(({ value }) => format(new Date(value), 'dd/MM/yyyy'))
     creationDate: Date;
 
     @Column('timestamp with time zone')
-    @Transform(({ value }) => format(value, 'dd/MM/yyyy'))
+    @Transform(({ value }) =>
+        !value ? value : format(new Date(value), 'dd/MM/yyyy'),
+    )
     endingDate?: Date;
 
     @Column({ type: 'enum', enum: AnimalType })
