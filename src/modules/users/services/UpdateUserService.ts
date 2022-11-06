@@ -6,7 +6,7 @@ interface UserData {
     name: string;
     email: string;
     oldPassword?: string;
-    newPassword?: string;
+    password?: string;
     userId: string;
 }
 
@@ -15,7 +15,7 @@ export default class UpdateUserService extends UserService {
         name,
         email,
         oldPassword,
-        newPassword,
+        password,
         userId,
     }: UserData): Promise<User> {
         const findedUser = await this.usersRepository.findById(userId);
@@ -33,7 +33,7 @@ export default class UpdateUserService extends UserService {
         }
 
         // Password update
-        if (oldPassword && newPassword) {
+        if (oldPassword && password) {
             const verifyPassword = oldPassword === findedUser.password;
             if (!verifyPassword) {
                 throw new AppError(
@@ -41,7 +41,7 @@ export default class UpdateUserService extends UserService {
                 );
             }
 
-            findedUser.password = newPassword;
+            findedUser.password = password;
         }
 
         findedUser.name = name;
