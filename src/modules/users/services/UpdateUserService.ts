@@ -1,13 +1,15 @@
 import AppError from 'errors/AppError';
 import User from 'typeorm/entities/User';
+import { AccountType } from 'types/AccountType';
 import UserService from './UserService';
 
 interface UserData {
     name: string;
     email: string;
+    userId: string;
+    accountType: AccountType;
     oldPassword?: string;
     password?: string;
-    userId: string;
 }
 
 export default class UpdateUserService extends UserService {
@@ -16,10 +18,18 @@ export default class UpdateUserService extends UserService {
         email,
         oldPassword,
         password,
+        accountType,
         userId,
     }: UserData): Promise<User> {
         const findedUser = await this.usersRepository.findById(userId);
         if (!findedUser) throw new AppError('Requested user does not exist');
+
+        if (
+            findedUser.accountType !== AccountType.PRODUCER &&
+            accountType !== AccountType.PRODUCER
+        ) {
+            findedUser.accountType = accountType;
+        }
 
         if (email !== findedUser.email) {
             const verifyEmail = await this.usersRepository.findByEmail(email);
