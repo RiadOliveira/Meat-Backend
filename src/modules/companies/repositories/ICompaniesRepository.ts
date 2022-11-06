@@ -9,6 +9,6 @@ export interface ICompaniesRepository {
     findById(id: string): Promise<Company | undefined>;
     findByProducer(producerId: string): Promise<Company | undefined>;
     findByCnpj(cnpj: number): Promise<Company | undefined>;
-    findAllEmployeesFromCompany(companyId: string): Promise<User[]>;
+    findAllMembersFromCompany(companyId: string): Promise<User[]>;
     delete(companyId: string): Promise<void>;
 }

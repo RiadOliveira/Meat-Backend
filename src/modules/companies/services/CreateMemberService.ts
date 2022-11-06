@@ -4,24 +4,24 @@ import CompanyService from './CompanyService';
 
 import { AccountType } from 'types/AccountType';
 
-interface CreateEmployeeData {
+interface CreateMemberData {
     name: string;
     email: string;
     password: string;
     accountType: AccountType;
 }
 
-export default class CreateEmployeeService extends CompanyService {
+export default class CreateMemberService extends CompanyService {
     public async execute(
         producerId: string,
-        createEmployeeData: CreateEmployeeData,
+        createMemberData: CreateMemberData,
     ): Promise<User> {
-        if (createEmployeeData.accountType === AccountType.PRODUCER) {
+        if (createMemberData.accountType === AccountType.PRODUCER) {
             throw new AppError('An producer cannot create another');
         }
 
         const findedUser = await this.usersRepository.findByEmail(
-            createEmployeeData.email,
+            createMemberData.email,
         );
         if (findedUser) throw new AppError("User's email already exists");
 
@@ -31,7 +31,7 @@ export default class CreateEmployeeService extends CompanyService {
         if (!findedCompany) throw new AppError('Company not found', 404);
 
         return this.usersRepository.create({
-            ...createEmployeeData,
+            ...createMemberData,
             companyId: findedCompany.id,
         });
     }

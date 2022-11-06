@@ -1,11 +1,11 @@
 import { instanceToInstance } from 'class-transformer';
 import { Request, Response, Router } from 'express';
 import CreateCompanyService from '../services/CreateCompanyService';
-import CreateEmployeeService from '../services/CreateEmployeeService';
+import CreateMemberService from '../services/CreateMemberService';
 import DeleteCompanyService from '../services/DeleteCompanyService';
-import DeleteEmployeeService from '../services/DeleteEmployeeService';
+import DeleteMemberService from '../services/DeleteMemberService';
 import FindCompanyByIdService from '../services/FindCompanyByIdService';
-import ListEmployeesFromCompanyService from '../services/ListEmployeesFromCompanyService';
+import ListMembersFromCompanyService from '../services/ListMembersFromCompanyService';
 import UpdateCompanyService from '../services/UpdateCompanyService';
 
 export const companiesRoutes = Router();
@@ -26,19 +26,19 @@ companiesRoutes.post('', async (request: Request, response: Response) => {
 });
 
 companiesRoutes.post(
-    '/create-employee',
+    '/create-member',
     async (request: Request, response: Response) => {
         const { name, email, password, accountType, producerId } = request.body;
 
-        const createEmployeeService = new CreateEmployeeService();
-        const employee = await createEmployeeService.execute(producerId, {
+        const createMemberService = new CreateMemberService();
+        const Member = await createMemberService.execute(producerId, {
             name,
             email,
             password,
             accountType,
         });
 
-        return response.status(201).json(instanceToInstance(employee));
+        return response.status(201).json(instanceToInstance(Member));
     },
 );
 
@@ -55,17 +55,17 @@ companiesRoutes.get(
 );
 
 companiesRoutes.get(
-    '/list-employees/:companyId',
+    '/list-members/:companyId',
     async (request: Request, response: Response) => {
         const { companyId } = request.params;
 
-        const listEmployeesFromCompanyService =
-            new ListEmployeesFromCompanyService();
-        const findedEmployees = await listEmployeesFromCompanyService.execute(
+        const listMembersFromCompanyService =
+            new ListMembersFromCompanyService();
+        const findedMembers = await listMembersFromCompanyService.execute(
             companyId,
         );
 
-        return response.status(200).json(instanceToInstance(findedEmployees));
+        return response.status(200).json(instanceToInstance(findedMembers));
     },
 );
 
@@ -87,13 +87,13 @@ companiesRoutes.put(
 );
 
 companiesRoutes.delete(
-    '/delete-employee/:employeeId',
+    '/delete-member/:MemberId',
     async (request: Request, response: Response) => {
-        const { employeeId } = request.params;
+        const { MemberId } = request.params;
         const { producerId } = request.body;
 
-        const deleteEmployeeService = new DeleteEmployeeService();
-        await deleteEmployeeService.execute(employeeId, producerId);
+        const deleteMemberService = new DeleteMemberService();
+        await deleteMemberService.execute(MemberId, producerId);
 
         return response.status(204).json();
     },

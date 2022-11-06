@@ -30,7 +30,7 @@ export default class Company {
     producerId: string;
 
     @OneToMany(() => User, user => user.company)
-    employees: User[];
+    members: User[];
 
     @OneToMany(() => Batch, batch => batch.company)
     batches: Batch[];

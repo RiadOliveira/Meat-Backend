@@ -38,15 +38,13 @@ class CompaniesRepository implements ICompaniesRepository {
         return this.companiesRepository.findOne({ where: { cnpj } });
     }
 
-    public async findAllEmployeesFromCompany(
-        companyId: string,
-    ): Promise<User[]> {
+    public async findAllMembersFromCompany(companyId: string): Promise<User[]> {
         const findedCompany = await this.companiesRepository.findOne(
             companyId,
-            { relations: ['employees'] },
+            { relations: ['members'] },
         );
 
-        return findedCompany?.employees ?? [];
+        return findedCompany?.members ?? [];
     }
 
     public async delete(companyId: string): Promise<void> {

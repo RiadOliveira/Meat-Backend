@@ -3,12 +3,9 @@ import CompanyService from './CompanyService';
 
 import { AccountType } from 'types/AccountType';
 
-export default class DeleteEmployeeService extends CompanyService {
-    public async execute(
-        employeeId: string,
-        producerId: string,
-    ): Promise<void> {
-        const findedUser = await this.usersRepository.findById(employeeId);
+export default class DeleteMemberService extends CompanyService {
+    public async execute(memberId: string, producerId: string): Promise<void> {
+        const findedUser = await this.usersRepository.findById(memberId);
         if (!findedUser) {
             throw new AppError('Requested user not found', 404);
         }
@@ -34,6 +31,6 @@ export default class DeleteEmployeeService extends CompanyService {
             );
         }
 
-        await this.usersRepository.delete(employeeId);
+        await this.usersRepository.delete(memberId);
     }
 }
