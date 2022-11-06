@@ -20,11 +20,16 @@ export default class CreateBatchService extends BatchService {
         if (!findedUser) throw new AppError('User not found', 404);
         validateBatchAction(findedUser, 'create');
 
-        const createdBatch = await this.batchesRepository.create({
+        const { id: batchId } = await this.batchesRepository.create({
             ...batchData,
             companyId: findedUser.companyId,
             idOfUserThatMadeLastChange: userId,
         });
-        return createdBatch;
+
+        const findedBatch =
+            await this.batchesRepository.findByIdWithUserThatMadeLastChange(
+                batchId,
+            );
+        return findedBatch!;
     }
 }
