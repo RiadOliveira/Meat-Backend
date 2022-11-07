@@ -36,11 +36,12 @@ export default class UpdateBatchService extends BatchService {
             validateBatchAction(findedUser, 'finish');
         }
 
-        const updatedBatch = await this.batchesRepository.save({
-            ...findedBatch,
-            ...updatedBatchData,
-            idOfUserThatMadeLastChange: userId,
-        });
+        const updatedBatch = await this.batchesRepository.save(
+            Object.assign(findedBatch, {
+                ...updatedBatchData,
+                idOfUserThatMadeLastChange: userId,
+            }),
+        );
         return updatedBatch;
     }
 }

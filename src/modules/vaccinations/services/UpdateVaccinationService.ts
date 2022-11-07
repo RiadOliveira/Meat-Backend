@@ -11,10 +11,10 @@ interface UpdateVaccinationData {
 export default class UpdateVaccinationService extends VaccinationService {
     public async execute(
         userId: string,
-        updateVaccinationData: UpdateVaccinationData,
+        updatedVaccinationData: UpdateVaccinationData,
     ): Promise<Vaccination> {
         const findedVaccination = await this.vaccinationsRepository.findById(
-            updateVaccinationData.id,
+            updatedVaccinationData.id,
         );
         if (!findedVaccination)
             throw new AppError('Vaccination not found', 404);
@@ -25,10 +25,9 @@ export default class UpdateVaccinationService extends VaccinationService {
         if (!findedBatch) throw new AppError('Batch not found', 404);
 
         await this.validateBatchRelatedEntityOperation(findedBatch, userId);
-        const updatedVaccination = await this.vaccinationsRepository.save({
-            ...findedVaccination,
-            ...updateVaccinationData,
-        });
+        const updatedVaccination = await this.vaccinationsRepository.save(
+            Object.assign(findedVaccination, updatedVaccinationData),
+        );
         await this.updateIdOfUserThatMadeLastChangeOnBatch(findedBatch, userId);
 
         return updatedVaccination;

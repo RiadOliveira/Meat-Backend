@@ -11,10 +11,10 @@ interface UpdatePortionData {
 export default class UpdatePortionService extends PortionService {
     public async execute(
         userId: string,
-        updatePortionData: UpdatePortionData,
+        updatedPortionData: UpdatePortionData,
     ): Promise<Portion> {
         const findedPortion = await this.portionsRepository.findById(
-            updatePortionData.id,
+            updatedPortionData.id,
         );
         if (!findedPortion) throw new AppError('Portion not found', 404);
 
@@ -24,10 +24,9 @@ export default class UpdatePortionService extends PortionService {
         if (!findedBatch) throw new AppError('Batch not found', 404);
 
         await this.validateBatchRelatedEntityOperation(findedBatch, userId);
-        const updatedPortion = await this.portionsRepository.save({
-            ...findedPortion,
-            ...updatePortionData,
-        });
+        const updatedPortion = await this.portionsRepository.save(
+            Object.assign(findedPortion, updatedPortionData),
+        );
         await this.updateIdOfUserThatMadeLastChangeOnBatch(findedBatch, userId);
 
         return updatedPortion;

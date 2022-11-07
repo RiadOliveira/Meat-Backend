@@ -20,9 +20,8 @@ export default class UpdateCompanyService extends CompanyService {
             throw new AppError('User is not related to any company');
         }
 
-        return this.companiesRepository.save({
-            ...findedCompany,
-            ...updatedCompany,
-        });
+        return this.companiesRepository.save(
+            Object.assign(findedCompany, updatedCompany),
+        );
     }
 }

@@ -12,10 +12,10 @@ interface UpdateSlaughterData {
 export default class UpdateSlaughterService extends SlaughterService {
     public async execute(
         userId: string,
-        updateSlaughterData: UpdateSlaughterData,
+        updatedSlaughterData: UpdateSlaughterData,
     ): Promise<Slaughter> {
         const findedSlaughter = await this.slaughterRepository.findById(
-            updateSlaughterData.id,
+            updatedSlaughterData.id,
         );
         if (!findedSlaughter) throw new AppError('Slaughter not found', 404);
 
@@ -25,10 +25,10 @@ export default class UpdateSlaughterService extends SlaughterService {
         if (!findedBatch) throw new AppError('Batch not found', 404);
 
         await this.validateBatchRelatedEntityOperation(findedBatch, userId);
-        const updatedSlaughter = await this.slaughterRepository.save({
-            ...findedSlaughter,
-            ...updateSlaughterData,
-        });
+
+        const updatedSlaughter = await this.slaughterRepository.save(
+            Object.assign(findedSlaughter, updatedSlaughterData),
+        );
         await this.updateIdOfUserThatMadeLastChangeOnBatch(findedBatch, userId);
 
         return updatedSlaughter;
