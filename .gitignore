@@ -2,4 +2,4 @@ node_modules
 
 # Environment
 .env
-ormconfig.json
+ormconfig.js
