@@ -10,7 +10,11 @@ import GlobalErrorHandler from 'errors/GlobalErrorHandler';
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use(
+    cors({
+        origin: process.env.FRONTED_URL,
+    }),
+);
 app.use(routes);
 app.use(GlobalErrorHandler);
 app.listen('3333');
