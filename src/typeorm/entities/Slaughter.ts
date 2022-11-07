@@ -1,5 +1,4 @@
 import { Transform } from 'class-transformer';
-import { format } from 'date-fns';
 import {
     Entity,
     PrimaryGeneratedColumn,
@@ -9,6 +8,7 @@ import {
     OneToOne,
     JoinColumn,
 } from 'typeorm';
+import { formatDateWithoutTimezone } from 'utils/formatDateWithoutTimezone';
 import Batch from './Batch';
 
 @Entity('slaughter')
@@ -35,10 +35,8 @@ export default class Slaughter {
     })
     batch: Batch;
 
-    @Column('timestamp with time zone')
-    @Transform(({ value }) =>
-        !value ? value : format(new Date(value), 'dd/MM/yyyy'),
-    )
+    @Column('timestamp')
+    @Transform(({ value }) => formatDateWithoutTimezone(value))
     slaughterDate: Date;
 
     @CreateDateColumn()

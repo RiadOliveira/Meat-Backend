@@ -32,11 +32,11 @@ export class CreateBatchesTable1662730848574 implements MigrationInterface {
                     },
                     {
                         name: 'creationDate',
-                        type: 'timestamp with time zone',
+                        type: 'timestamp',
                     },
                     {
                         name: 'endingDate',
-                        type: 'timestamp with time zone',
+                        type: 'timestamp',
                         isNullable: true,
                         default: null,
                     },

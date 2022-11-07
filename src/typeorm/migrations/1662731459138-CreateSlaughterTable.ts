@@ -31,7 +31,7 @@ export class CreateSlaughterTable1662731459138 implements MigrationInterface {
                     },
                     {
                         name: 'slaughterDate',
-                        type: 'timestamp with time zone',
+                        type: 'timestamp',
                     },
                     {
                         name: 'createdAt',

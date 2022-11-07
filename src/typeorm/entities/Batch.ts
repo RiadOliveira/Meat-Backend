@@ -11,13 +11,13 @@ import {
     JoinColumn,
 } from 'typeorm';
 import { AnimalType } from 'types/AnimalType';
-import { format } from 'date-fns';
 
 import Company from './Company';
 import Portion from './Portion';
 import Slaughter from './Slaughter';
 import User from './User';
 import Vaccination from './Vaccination';
+import { formatDateWithoutTimezone } from 'utils/formatDateWithoutTimezone';
 
 @Entity('batches')
 export default class Batch {
@@ -36,13 +36,13 @@ export default class Batch {
     @Column()
     race: string;
 
-    @Column('timestamp with time zone')
-    @Transform(({ value }) => format(new Date(value), 'dd/MM/yyyy'))
+    @Column('timestamp')
+    @Transform(({ value }) => formatDateWithoutTimezone(value))
     creationDate: Date;
 
-    @Column('timestamp with time zone')
+    @Column('timestamp')
     @Transform(({ value }) =>
-        !value ? value : format(new Date(value), 'dd/MM/yyyy'),
+        !value ? value : formatDateWithoutTimezone(value),
     )
     endingDate?: Date;
 
