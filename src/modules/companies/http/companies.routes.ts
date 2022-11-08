@@ -102,7 +102,7 @@ companiesRoutes.put(
             password,
         });
 
-        return response.status(200).json(updatedMember);
+        return response.status(200).json(instanceToInstance(updatedMember));
     },
 );
 
