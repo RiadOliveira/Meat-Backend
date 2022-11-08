@@ -7,6 +7,7 @@ import DeleteMemberService from '../services/DeleteMemberService';
 import FindCompanyByIdService from '../services/FindCompanyByIdService';
 import ListMembersFromCompanyService from '../services/ListMembersFromCompanyService';
 import UpdateCompanyService from '../services/UpdateCompanyService';
+import UpdateMemberService from '../services/UpdateMemberService';
 
 export const companiesRoutes = Router();
 
@@ -83,6 +84,25 @@ companiesRoutes.put(
         });
 
         return response.status(200).json(updatedCompany);
+    },
+);
+
+companiesRoutes.put(
+    '/update-member/:memberId',
+    async (request: Request, response: Response) => {
+        const { memberId } = request.params;
+        const { producerId, name, email, password, accountType } = request.body;
+
+        const updateMemberService = new UpdateMemberService();
+        const updatedMember = await updateMemberService.execute(producerId, {
+            memberId,
+            name,
+            email,
+            accountType,
+            password,
+        });
+
+        return response.status(200).json(updatedMember);
     },
 );
 

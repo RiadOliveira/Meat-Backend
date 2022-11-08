@@ -3,7 +3,7 @@ import User from 'typeorm/entities/User';
 import { AccountType } from 'types/AccountType';
 import UserService from './UserService';
 
-interface UserData {
+interface UpdateUserData {
     name: string;
     email: string;
     userId: string;
@@ -20,9 +20,9 @@ export default class UpdateUserService extends UserService {
         password,
         accountType,
         userId,
-    }: UserData): Promise<User> {
+    }: UpdateUserData): Promise<User> {
         const findedUser = await this.usersRepository.findById(userId);
-        if (!findedUser) throw new AppError('Requested user does not exist');
+        if (!findedUser) throw new AppError('User not found');
 
         if (
             findedUser.accountType !== AccountType.PRODUCER &&
