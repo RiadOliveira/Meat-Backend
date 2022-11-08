@@ -19,13 +19,9 @@ export default class UpdateSlaughterService extends SlaughterService {
         );
         if (!findedSlaughter) throw new AppError('Slaughter not found', 404);
 
-        const findedBatch = await this.batchesRepository.findById(
-            findedSlaughter.batchId,
-        );
-        if (!findedBatch) throw new AppError('Batch not found', 404);
+        const { batch: findedBatch } = findedSlaughter;
 
         await this.validateBatchRelatedEntityOperation(findedBatch, userId);
-
         const updatedSlaughter = await this.slaughterRepository.save(
             Object.assign(findedSlaughter, updatedSlaughterData),
         );

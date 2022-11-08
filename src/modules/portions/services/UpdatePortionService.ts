@@ -18,10 +18,7 @@ export default class UpdatePortionService extends PortionService {
         );
         if (!findedPortion) throw new AppError('Portion not found', 404);
 
-        const findedBatch = await this.batchesRepository.findById(
-            findedPortion.batchId,
-        );
-        if (!findedBatch) throw new AppError('Batch not found', 404);
+        const { batch: findedBatch } = findedPortion;
 
         await this.validateBatchRelatedEntityOperation(findedBatch, userId);
         const updatedPortion = await this.portionsRepository.save(

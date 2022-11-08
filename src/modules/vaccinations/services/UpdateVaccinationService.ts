@@ -19,10 +19,7 @@ export default class UpdateVaccinationService extends VaccinationService {
         if (!findedVaccination)
             throw new AppError('Vaccination not found', 404);
 
-        const findedBatch = await this.batchesRepository.findById(
-            findedVaccination.batchId,
-        );
-        if (!findedBatch) throw new AppError('Batch not found', 404);
+        const { batch: findedBatch } = findedVaccination;
 
         await this.validateBatchRelatedEntityOperation(findedBatch, userId);
         const updatedVaccination = await this.vaccinationsRepository.save(

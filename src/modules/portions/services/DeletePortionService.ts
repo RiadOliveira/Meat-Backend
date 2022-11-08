@@ -6,11 +6,10 @@ export default class DeletePortionService extends PortionService {
         const findedPortion = await this.portionsRepository.findById(portionId);
         if (!findedPortion) throw new AppError('Portion not found', 404);
 
-        await this.validateBatchRelatedEntityOperation(
-            findedPortion.batch,
-            userId,
-        );
+        const { batch: findedBatch } = findedPortion;
 
+        await this.validateBatchRelatedEntityOperation(findedBatch, userId);
         await this.portionsRepository.delete(findedPortion.id);
+        await this.updateIdOfUserThatMadeLastChangeOnBatch(findedBatch, userId);
     }
 }

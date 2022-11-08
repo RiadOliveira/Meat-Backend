@@ -10,11 +10,10 @@ export default class DeleteVaccinationService extends VaccinationService {
             throw new AppError('Vaccination not found', 404);
         }
 
-        await this.validateBatchRelatedEntityOperation(
-            findedVaccination.batch,
-            userId,
-        );
+        const { batch: findedBatch } = findedVaccination;
 
+        await this.validateBatchRelatedEntityOperation(findedBatch, userId);
         await this.vaccinationsRepository.delete(findedVaccination.id);
+        await this.updateIdOfUserThatMadeLastChangeOnBatch(findedBatch, userId);
     }
 }

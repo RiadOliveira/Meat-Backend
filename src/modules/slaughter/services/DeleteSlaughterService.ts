@@ -10,11 +10,10 @@ export default class DeleteSlaughterService extends SlaughterService {
             throw new AppError('Slaughter not found', 404);
         }
 
-        await this.validateBatchRelatedEntityOperation(
-            findedSlaughter.batch,
-            userId,
-        );
+        const { batch: findedBatch } = findedSlaughter;
 
+        await this.validateBatchRelatedEntityOperation(findedBatch, userId);
         await this.slaughterRepository.delete(findedSlaughter.id);
+        await this.updateIdOfUserThatMadeLastChangeOnBatch(findedBatch, userId);
     }
 }
